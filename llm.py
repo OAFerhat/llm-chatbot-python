@@ -1,17 +1,14 @@
 import streamlit as st
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
 # Create the LLM
-from langchain_openai import ChatOpenAI
-
 llm = ChatOpenAI(
-    openai_api_key=st.secrets["OPENAI_API_KEY"],
-    model=st.secrets["OPENAI_MODEL"],
+    temperature=0,
+    api_key=st.secrets["OPENAI_API_KEY"],
+    model="gpt-3.5-turbo"
 )
 
 # Create the Embedding model
-from langchain_openai import OpenAIEmbeddings
-
 embeddings = OpenAIEmbeddings(
-    openai_api_key=st.secrets["OPENAI_API_KEY"]
+    api_key=st.secrets["OPENAI_API_KEY"]
 )
-
