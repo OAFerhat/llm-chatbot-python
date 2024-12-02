@@ -8,7 +8,7 @@ from langchain.agents import AgentExecutor, create_react_agent
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from utils import get_session_id
 from tools.vector import get_movie_plot
-
+from tools.cypher import cypher_qa
 
 # Create a movie chat chain
 chat_prompt = ChatPromptTemplate.from_messages(
@@ -38,7 +38,17 @@ tools = [
         name="Movie Plot Search",  
         description="Use this tool when you need to find movies based on plot descriptions or answer questions about movie plots, actors, directors, and their roles. This tool searches through actual movie plot summaries.",
         func=get_movie_plot, 
+    ),
+        Tool.from_function(
+        name="Movie information",
+        description="""Provide information about movies using Cypher queries. This tool can:
+        - Find connections between actors
+        - Calculate degrees of separation between actors
+        - Find movie details
+        The tool returns results in a structured format. For degrees of separation queries, it returns a number representing the degrees.""",
+        func = cypher_qa
     )
+
 ]
 
 # Create chat history callback
